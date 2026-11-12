@@ -1,0 +1,16 @@
+# Redirecciones de las URLs viejas (.html) a las páginas PHP.
+# Reemplaza a los archivos .html sueltos que había en la raíz.
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteBase /
+
+    RewriteRule ^index\.html$              index.php               [R=301,L]
+    RewriteRule ^boletines\.html$          boletines.php           [R=301,L]
+    RewriteRule ^boletines-([0-9]+)\.html$ boletines.php?p=$1      [R=301,L]
+    RewriteRule ^reportajes\.html$         reportajes.php          [R=301,L]
+    RewriteRule ^reportajes-([0-9]+)\.html$ reportajes.php?p=$1    [R=301,L]
+
+    # Páginas de artículo antiguas: slug.html -> articulo.php?slug=slug.html
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteRule ^([a-z0-9][a-z0-9-]+)\.html$ articulo.php?slug=$1.html [R=301,L]
+</IfModule>

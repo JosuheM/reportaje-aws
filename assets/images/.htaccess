@@ -1,0 +1,22 @@
+# =============================================================
+#  assets/images/  ->  SOLO imágenes estáticas.
+#  Aunque alguien logre subir un archivo con código, aquí
+#  nunca se ejecuta: el motor PHP queda apagado en esta carpeta.
+# =============================================================
+
+# Apagar el intérprete PHP para todo lo que haya en esta carpeta.
+# (php_flag SÍ se permite en .htaccess con mod_php; php_admin_flag no.)
+<IfModule php_module>
+    php_flag engine off
+</IfModule>
+
+# Por si el servidor usa CGI/FPM: quitar cualquier handler dinámico.
+<IfModule mod_mime.c>
+    RemoveHandler .php .phtml .php3 .php4 .php5 .php7 .php8 .phps .phar .pl .py .cgi .asp .aspx .sh
+    RemoveType .php .phtml .phar .phps
+</IfModule>
+
+# Denegar el acceso a cualquier archivo que no sea una imagen.
+<FilesMatch "(?i)\.(php[0-9]?|phtml|phps|phar|pht|pl|py|cgi|asp|aspx|jsp|sh|bash|lua|exe|com|dll|ini)$">
+    Require all denied
+</FilesMatch>

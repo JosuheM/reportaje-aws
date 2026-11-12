@@ -1,0 +1,162 @@
+/* ================================================================
+   DDP Noticias — ajustes propios sobre la plantilla
+   Estandariza las miniaturas de las tarjetas para que todas
+   se vean del mismo tamaño sin importar la imagen original.
+   ================================================================ */
+
+/* --- Tarjetas de grilla (Reportajes, Actualidad, Boletines) --- */
+.grids5-info {
+    display: flex;
+    flex-direction: column;
+}
+.grids5-info > a.d-block {
+    display: block;
+    overflow: hidden;
+    border-radius: 14px;
+    line-height: 0;
+}
+.grids5-info > a.d-block > img {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 10;      /* proporción fija para TODAS */
+    object-fit: cover;          /* recorta lo que sobra, no deforma */
+    object-position: center;
+    display: block;
+}
+.grids5-info .blog-info {
+    flex: 1 1 auto;
+}
+/* Navegadores sin soporte de aspect-ratio (respaldo) */
+@supports not (aspect-ratio: 1 / 1) {
+    .grids5-info > a.d-block > img { height: 210px; }
+}
+
+/* --- Sección destacada de la portada ---
+   Se limita el ancho a 1200px y se centra, igual que el sitio oficial,
+   para que la columna (y por tanto la imagen) no crezca sin control. */
+.w3l-video .video-grids-info.row {
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+    align-items: center;   /* imagen y texto centrados a la misma altura, como el oficial */
+}
+/* La imagen destacada: proporción natural (sin deformar) y con un tope
+   de alto por si alguna portada es muy vertical. */
+.video-gd-right .position-relative {
+    overflow: hidden;
+    border-radius: 16px;
+}
+.video-gd-right .position-relative > a > img {
+    width: 100%;
+    height: auto;
+    max-height: 520px;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+}
+
+/* --- Imagen principal dentro del artículo --- */
+.single-post-image img {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    object-position: center;
+}
+
+/* Igualar la altura de las filas de tarjetas */
+.grids-block-5 .row { align-items: stretch; }
+
+/* --- Actualidad / "Noticias Recientes": tarjetas grandes y cuadradas,
+       igual que el sitio oficial (imagen 369x369 aprox. en 3 columnas) --- */
+.noticias-grid .grids5-info > a.d-block > img {
+    aspect-ratio: 1 / 1;   /* cuadrada, como en dialogoydesarrollo.com.pe */
+    height: auto;
+}
+@supports not (aspect-ratio: 1 / 1) {
+    .noticias-grid .grids5-info > a.d-block > img { height: 360px; }
+}
+
+/* --- Boletines: se muestran las portadas completas (sin recorte) --- */
+.boletines-grid .grids5-info > a.d-block { border-radius: 8px; }
+.boletines-grid .grids5-info > a.d-block > img {
+    aspect-ratio: auto;
+    height: auto;
+    object-fit: contain;
+}
+
+/* --- Paginación: alinear el "Ant/Sig" deshabilitado con los botones --- */
+.grids-block-5 .pagination li .text-muted {
+    display: block;
+    height: 40px;
+    line-height: 40px;
+    padding: 0 17px;
+    opacity: .45;
+}
+
+/* --- Podcast / videos embebidos --- */
+.ratio-16x9 { position: relative; width: 100%; padding-top: 56.25%; overflow: hidden; border-radius: 10px; background: #f0f0f0; }
+.ratio-16x9 > iframe, .ratio-16x9 > * { position: absolute; inset: 0; width: 100% !important; height: 100% !important; }
+.area-box p a:hover { text-decoration: underline; }
+
+/* --- Tarjeta de podcast: portada + botón, el reproductor se abre en una
+   ventana emergente (modal). Evita meter un iframe de Spotify/YouTube
+   dentro de recuadros angostos, donde se ve recortado y feo. --- */
+.podcast-card {
+    position: relative;
+    aspect-ratio: 1 / 1;
+    max-width: 320px;
+    margin: 0 auto;
+    border-radius: 12px;
+    background: linear-gradient(160deg, var(--primary-color, #e0020d), #6e0108);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    padding: 1rem;
+    text-align: center;
+    transition: transform .15s ease, box-shadow .15s ease;
+}
+.podcast-card:hover { transform: translateY(-3px); box-shadow: 0 10px 24px rgba(0, 0, 0, .18); }
+.podcast-card-play { color: #fff; font-size: 2.3rem; opacity: .95; }
+.podcast-card-label { display: block; font-size: .72rem; color: #fff; opacity: .85; margin: .15rem 0 .6rem; letter-spacing: .03em; text-transform: uppercase; }
+.podcast-card-title {
+    color: #fff; font-weight: 600; font-size: .88rem; line-height: 1.3;
+    display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+}
+
+/* Ventana emergente (modal) donde sí se reproduce el episodio */
+#site-header ~ .modal { z-index: 2000; }  /* por encima del header fijo */
+.modal-embed-audio { position: relative; width: 100%; min-height: 232px; background: #f0f0f0; }
+.modal-embed-audio > iframe { display: block; width: 100% !important; height: 232px !important; border: 0; }
+@media (min-width: 576px) { .modal-embed-audio > iframe { height: 352px !important; } }
+
+/* ================================================================
+   Marco decorativo de las tarjetas (como en el sitio real):
+   esquina ROJA curva ARRIBA-DERECHA y esquina BLANCA curva
+   ABAJO-DERECHA. El lado izquierdo queda recto, sin adorno.
+   Se activa/desactiva desde el panel: Ajustes -> Apariencia.
+   ================================================================ */
+.con-marco-tarjetas .grids-block-5:not(.boletines-grid):not(.noticias-grid) .grids5-info > a.d-block {
+    position: relative;
+    overflow: visible;                 /* que se vea el color detrás de la curva */
+    background: transparent;
+}
+/* fondo ROJO detrás: solo asoma por la curva de ARRIBA-DERECHA.
+   Abajo-derecha se redondea MUCHO para que ahí NO se vea rojo, sino el
+   fondo claro de la tarjeta (la "curva blanca", igual de grande que la roja).
+   Izquierda un pelo más redonda que la foto => no asoma ningún filo. */
+.con-marco-tarjetas .grids-block-5:not(.boletines-grid):not(.noticias-grid) .grids5-info > a.d-block::before {
+    content: ""; position: absolute; inset: 0; z-index: 0; pointer-events: none;
+    background: var(--marco-rojo, #e0020d);
+    border-radius: 20px 16px 48% 20px / 20px 16px 60% 20px;
+}
+/* la foto: DOS grandes curvas gemelas en el lado DERECHO
+   (arriba-derecha deja ver el rojo, abajo-derecha deja ver el blanco).
+   Radios en % => amplias y proporcionales a la tarjeta, como el sitio real. */
+.con-marco-tarjetas .grids-block-5:not(.boletines-grid):not(.noticias-grid) .grids5-info > a.d-block > img {
+    position: relative;
+    z-index: 1;
+    border-radius: 16px 44% 44% 16px / 16px 54% 54% 16px;
+}

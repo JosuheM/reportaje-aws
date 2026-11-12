@@ -1,0 +1,8 @@
+# Credenciales reales y códigos maestros: nunca se suben.
+# Copia admin/config/conexion.example.php -> admin/config/conexion.php y llénalo.
+admin/config/conexion.php
+
+# Basura del sistema / editores
+.DS_Store
+Thumbs.db
+*.log

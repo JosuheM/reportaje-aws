@@ -87,6 +87,7 @@ SetEnv CODIGO_REGISTRO "$CODIGO_REGISTRO"
 
 <Directory "$WEB">
     AllowOverride All
+    Options -Indexes
     Require all granted
 </Directory>
 # No servir ni el repositorio ni el SQL ni los .md
